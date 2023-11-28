@@ -76,8 +76,8 @@ def main():
 
         rb_rct.move_ip((vx,vy))
         if tmr%100 == 0:
-            vx *=1.2
-            vy *=1.2
+            vx *=1.3
+            vy *=1.3
         width ,height = out_of_range(rb_rct)
         if not width:
             vx *= -1
