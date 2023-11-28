@@ -15,8 +15,11 @@ def main():
     rb_img = pg.Surface((20, 20))
     pg.draw.circle(rb_img, (255, 0, 0), (10, 10), 10)
     rb_img.set_colorkey((0, 0, 0))
-    rb_x = random.randint(0,900)
-    rb_y = random.randint(0,400)
+    rb_rct = rb_img.get_rect()
+    rb_rct.centerx = random.randint(0,900)
+    rb_rct.centery = random.randint(0,400)
+    vx = +5
+    vy = +5
     clock = pg.time.Clock()
     tmr = 0
     while True:
@@ -26,10 +29,11 @@ def main():
 
         screen.blit(bg_img, [0, 0])
         screen.blit(kk_img, [900, 400])
-        screen.blit(rb_img, [rb_x, rb_y])
+        rb_rct.move_ip((vx,vy))
+        screen.blit(rb_img, [rb_rct.centerx,rb_rct.centery])
         pg.display.update()
         tmr += 1
-        clock.tick(10)
+        clock.tick(50)
 
 
 if __name__ == "__main__":
