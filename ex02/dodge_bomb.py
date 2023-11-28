@@ -11,6 +11,15 @@ delta = {
 
 WIDTH, HEIGHT = 1600, 900
 
+def out_of_range(rct: pg.Rect):
+    width = True
+    height = True
+    if rct.left <0 or WIDTH < rct.right:
+        width = False
+    if rct.top <0 or HEIGHT < rct.bottom:
+        height = False
+    
+    return width,height
 
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
@@ -34,6 +43,10 @@ def main():
         for event in pg.event.get():
             if event.type == pg.QUIT: 
                 return
+            
+        if kk_rct.colliderect(rb_rct):
+            print("Game Over")
+            return
 
         key_lst = pg.key.get_pressed()
         sum_mv = [0,0]
@@ -43,8 +56,15 @@ def main():
                 sum_mv[1] += tpl[1]
         screen.blit(bg_img, [0, 0])
         kk_rct.move_ip(sum_mv[0],sum_mv[1])
+        if out_of_range(kk_rct) != (True,True):
+            kk_rct.move_ip(-sum_mv[0],-sum_mv[1])
         screen.blit(kk_img,kk_rct)
         rb_rct.move_ip((vx,vy))
+        width ,height = out_of_range(rb_rct)
+        if not width:
+            vx *= -1
+        if not height:
+            vy *= -1
         screen.blit(rb_img, [rb_rct.centerx,rb_rct.centery])
         pg.display.update()
         tmr += 1
