@@ -86,10 +86,10 @@ def main():
         else:
             screen.blit(kk_img,kk_rct)
 
-        rb_rct.move_ip((vx,vy))
-
         accs = [a for a in range(1,11)]
-        vx,vy = vx*accs[min(tmr//500,9)],vy*accs[min(tmr//500,9)]
+        avx,avy = vx*accs[min(tmr//500,9)],vy*accs[min(tmr//500,9)]
+
+        rb_rct.move_ip(avx,avy)
 
         width ,height = out_of_range(rb_rct)
         if not width:
@@ -103,6 +103,8 @@ def main():
             screen.blit(kk_img_gameover,kk_rct)
             vx = 0
             vy = 0
+            print("game over")
+            return
             
 
         pg.display.update()
