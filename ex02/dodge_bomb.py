@@ -27,6 +27,9 @@ def main():
     bg_img = pg.image.load("ex02/fig/pg_bg.jpg")
     kk_img = pg.image.load("ex02/fig/3.png")
     kk_img = pg.transform.rotozoom(kk_img, 0, 2.0)
+    kk_img_up = pg.transform.rotozoom(kk_img,-90,1.0)
+    kk_img_down = pg.transform.rotozoom(kk_img,90,1.0)
+    kk_img_right = pg.transform.flip(kk_img,True,False)
     kk_rct = kk_img.get_rect()
     kk_rct.center = 900,400
     rb_img = pg.Surface((20, 20))
@@ -54,18 +57,34 @@ def main():
             if key_lst[k]:
                 sum_mv[0] += tpl[0]
                 sum_mv[1] += tpl[1]
+
         screen.blit(bg_img, [0, 0])
         kk_rct.move_ip(sum_mv[0],sum_mv[1])
         if out_of_range(kk_rct) != (True,True):
             kk_rct.move_ip(-sum_mv[0],-sum_mv[1])
-        screen.blit(kk_img,kk_rct)
+
+        if key_lst[pg.K_UP]:
+            screen.blit(kk_img_up,kk_rct)
+        elif key_lst[pg.K_DOWN]:
+            screen.blit(kk_img_down,kk_rct)
+        elif key_lst[pg.K_RIGHT]:
+            screen.blit(kk_img_right,kk_rct)
+        elif key_lst[pg.K_LEFT]:
+            screen.blit(kk_img,kk_rct)
+        else:
+            screen.blit(kk_img,kk_rct)
+
         rb_rct.move_ip((vx,vy))
+        if tmr%100 == 0:
+            vx *=1.2
+            vy *=1.2
         width ,height = out_of_range(rb_rct)
         if not width:
             vx *= -1
         if not height:
             vy *= -1
         screen.blit(rb_img, [rb_rct.centerx,rb_rct.centery])
+
         pg.display.update()
         tmr += 1
         clock.tick(50)
